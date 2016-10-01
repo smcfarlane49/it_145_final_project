@@ -10,16 +10,31 @@ public class ReadAFile {
 
    private String fileMD5Password;
    private String role;
-   private String systemInfo = "";
+   private String systemInfo;
+   private String filePath;
+   private String username;
    
    public ReadAFile() {
       fileMD5Password = "";
       role = "";
       systemInfo = "";
+      filePath = "";
+      username = "";
    }
    
-   public String readUsersFromFile(String filepath, String username) {
-      File file = new File(filepath);
+   public void setFilePath(String filePath) {
+      this.filePath = filePath;
+      return;
+   }
+   
+   public void setUsername(String username) {
+      this.username = username;
+      return;
+   }
+   
+   @SuppressWarnings("deprecation")
+   public String readUsersFromFile() {
+      File file = new File(filePath + "credentials.txt");
       FileInputStream fis = null;
       BufferedInputStream bis = null;
       DataInputStream dis = null;
@@ -57,17 +72,15 @@ public class ReadAFile {
       return fileMD5Password;
    }
    
-   public String pullRoleFromCredentials (String usernameFilePath, String username) throws IOException {
+   public String pullRoleFromCredentials () throws IOException {
       FileInputStream fileByteStream = null;
       Scanner inFS = null;
       String line1 = "";
-      int i = 0;
       
-      fileByteStream = new FileInputStream(usernameFilePath + "credentials.txt");
+      fileByteStream = new FileInputStream(filePath + "credentials.txt");
       inFS = new Scanner(fileByteStream);
       
       line1 = inFS.nextLine();
-      i = 1;
       int lineLength  = line1.split("\t").length;
       
       while (inFS.hasNextLine() || role.equals("")) {
@@ -77,12 +90,14 @@ public class ReadAFile {
 
          if (user[0].equals(username)) {
             role = user[3];
-            systemInfo = pullRoleSystemInformation(usernameFilePath + role + ".txt");
+            systemInfo = pullRoleSystemInformation(filePath + role + ".txt");
+            inFS.close();
             return systemInfo;
          }
          line1 = inFS.nextLine();
-         ++i;
       }
+      
+      inFS.close();
       return "";
    }
    
@@ -90,7 +105,6 @@ public class ReadAFile {
       FileInputStream fileByteStream = null;
       Scanner inFS = null;
       String line1 = "";
-      int i = 0;
       
       fileByteStream = new FileInputStream(roleFilePath);
       inFS = new Scanner(fileByteStream);
@@ -100,7 +114,7 @@ public class ReadAFile {
       while (inFS.hasNextLine()) {
          line1 += inFS.nextLine() + "\n";
       }
-      
+      inFS.close();
       systemInfo = "<html><p>" + line1 + "</p></html>";
       return systemInfo;
    }
