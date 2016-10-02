@@ -55,13 +55,18 @@ public class DisplayDialogBoxes {
       JTextField usernameTxtField = new JTextField(15);
       JLabel passwordLabel = new JLabel("Password: ");
       JPasswordField pass = new JPasswordField(15);
+      // https://tips4java.wordpress.com/2010/03/14/dialog-focus/
+      usernameTxtField.addAncestorListener( new RequestFocusListener() );
       panel.add(usernameLabel);
       panel.add(usernameTxtField);
       panel.add(passwordLabel);
       panel.add(pass);
       String[] options = new String[]{"Login", "Cancel"};
-      //int option = 
-      JOptionPane.showOptionDialog(null, panel, "Login Screen", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+      int option = JOptionPane.showOptionDialog(null, panel, "Login Screen", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+      
+      if (option == 1) {
+         return "exit";
+      }
       
       username = usernameTxtField.getText().trim();
       String myPassword ="";
@@ -82,8 +87,19 @@ public class DisplayDialogBoxes {
          return username;
       }
       else {
+         if (invalidUsernamePassword() == 1) {
+            return "exit";
+         }
          return "";
       }
    }
-
+   
+   private int invalidUsernamePassword () {
+      JPanel panel = new JPanel(new GridLayout(0,1));
+      JLabel label = new JLabel("You entered an invalid username or password");
+      panel.add(label);
+      String[] options = new String[]{"Try Again", "Exit"};
+      int option = JOptionPane.showOptionDialog(null, panel, "", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+      return option;
+   }
 }

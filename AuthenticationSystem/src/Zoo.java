@@ -18,6 +18,9 @@ public class Zoo {
       while (username.equals("")) {
          if (cnt < 3) {
             username = loginPrompt.loginPrompt();
+            if (username == "exit") {
+               return;
+            }
             cnt++;
          }
          else {
