@@ -143,7 +143,12 @@ public class DisplayDialogBoxes {
       JTextField usernameTxtField = new JTextField(15);
       JLabel passwordLabel = new JLabel("Password: ");
       JPasswordField pass = new JPasswordField(15);
-      // https://tips4java.wordpress.com/2010/03/14/dialog-focus/
+      /*
+       * https://tips4java.wordpress.com/2010/03/14/dialog-focus
+       * RequestFocusListener.java was found on the site above and
+       * allows the focus on the dialog box to be on the usernameTxtField
+       * instead of the Login button.
+       */
       usernameTxtField.addAncestorListener( new RequestFocusListener() );
       panel.add(usernameLabel);
       panel.add(usernameTxtField);
