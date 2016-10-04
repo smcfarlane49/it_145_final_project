@@ -3,7 +3,7 @@ import javax.swing.event.*;
 
 /**
  *  https://tips4java.wordpress.com/2010/03/14/dialog-focus/
- * 
+ *  <p>
  *  Convenience class to request focus on a component.
  *
  *  When the component is added to a realized Window then component will
@@ -19,12 +19,15 @@ import javax.swing.event.*;
  *  allows you to specify a boolean value of false to prevent the
  *  AncestorListener from being removed when the event is generated. This will
  *  allow you to reuse the listener each time the event is generated.
+ *  
+ *  @author Rob Camick
+ *  @since  2010-03-14
  */
 public class RequestFocusListener implements AncestorListener
 {
    private boolean removeListener;
 
-   /*
+   /**
     *  Convenience constructor. The listener is only used once and then it is
     *  removed from the component.
     */
@@ -33,7 +36,7 @@ public class RequestFocusListener implements AncestorListener
       this(true);
    }
 
-   /*
+   /**
     *  Constructor that controls whether this listen can be used once or
     *  multiple times.
     *
